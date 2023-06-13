@@ -1,0 +1,7 @@
+C:\My Stuff\Mega\C# Trabajos\ControlDeProyectoDeGrado\ControlDeProyectoDeGrado\bin\Debug\ControlDeProyectoDeGrado.exe.config
+C:\My Stuff\Mega\C# Trabajos\ControlDeProyectoDeGrado\ControlDeProyectoDeGrado\bin\Debug\ControlDeProyectoDeGrado.exe
+C:\My Stuff\Mega\C# Trabajos\ControlDeProyectoDeGrado\ControlDeProyectoDeGrado\bin\Debug\ControlDeProyectoDeGrado.pdb
+C:\My Stuff\Mega\C# Trabajos\ControlDeProyectoDeGrado\ControlDeProyectoDeGrado\obj\Debug\ControlDeProyectoDeGrado.csproj.CoreCompileInputs.cache
+C:\My Stuff\Mega\C# Trabajos\ControlDeProyectoDeGrado\ControlDeProyectoDeGrado\obj\Debug\ControlDeProyectoDeGrado.exe
+C:\My Stuff\Mega\C# Trabajos\ControlDeProyectoDeGrado\ControlDeProyectoDeGrado\obj\Debug\ControlDeProyectoDeGrado.pdb
+C:\My Stuff\Mega\C# Trabajos\ControlDeProyectoDeGrado\ControlDeProyectoDeGrado\obj\Debug\ControlDeProyectoDeGrado.csproj.AssemblyReference.cache
