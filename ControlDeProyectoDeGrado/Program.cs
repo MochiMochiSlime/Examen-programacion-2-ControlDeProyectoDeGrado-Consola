@@ -23,6 +23,16 @@ namespace ControlDeProyectoDeGrado
 
 
             AEstudiantes.Add(new Estudiantes(20230000, "Wilber", "ISC", true));
+            AEstudiantes.Add(new Estudiantes(20230001, "Wilsairy", "MED", true));
+
+
+            string fecha1 = "12/12/2023";
+            string fecha2 = "13/12/2025";
+            DateTime fecha11;
+            DateTime fecha22;
+            DateTime.TryParse(fecha1, out fecha11);
+            DateTime.TryParse(fecha2, out fecha22);
+            AProyecto.Add(new Proyectos("Gestion Proyectos De Grado", fecha11, fecha22,0,20230000,0));
 
 
 
@@ -103,9 +113,9 @@ namespace ControlDeProyectoDeGrado
                 Console.CursorVisible = false;                
                 Console.SetCursorPosition(29, 8); Console.Write("\u001b[4mSeleccione su opcion:\u001b[0m");
                 Console.SetCursorPosition(15, 10); Console.Write($"{(op == 1 ? colorsubrayado : "")}1- Resgistrar Estudiante\u001b[0m");
-                //Console.SetCursorPosition(15, 11); Console.Write($"{(op == 2 ? colorsubrayado : "")}2- Mostrar todos los proyectos\u001b[0m");
-                //Console.SetCursorPosition(15, 12); Console.Write($"{(op == 3 ? colorsubrayado : "")}3- Calificar  \u001b[0m");
-                //Console.SetCursorPosition(15, 13); Console.Write($"{(op == 4 ? colorsubrayado : "")}4- Consultar datos de los proyectos y calificaciones\u001b[0m");
+                Console.SetCursorPosition(15, 11); Console.Write($"{(op == 2 ? colorsubrayado : "")}2- Registrar Proyecto de grado\u001b[0m");
+                Console.SetCursorPosition(15, 12); Console.Write($"{(op == 3 ? colorsubrayado : "")}3- Consulta\u001b[0m");
+                Console.SetCursorPosition(15, 13); Console.Write($"{(op == 4 ? colorsubrayado : "")}4- Calificar\u001b[0m");
                 //Console.SetCursorPosition(15, 14); Console.Write($"{(op == 5 ? colorsubrayado : "")}5- Salir\u001b[0m");
                 //Console.SetCursorPosition(15, 13); Console.Write("6-");
                 //Console.SetCursorPosition(15, 15); Console.Write("0-");   
@@ -169,15 +179,15 @@ namespace ControlDeProyectoDeGrado
                     break;
 
                 case 2:
-                    ConsultarDatos(AEstudiantes, estudiantes);
+                    Registrarproyectos(AProyecto, proyectos, AEstudiantes, estudiantes);
                     break;
 
                 case 3:
-                    Console.SetCursorPosition(20, 24); Console.Write("En construccion");
+                    ConsultarDatos(AProyecto, proyectos, AEstudiantes, estudiantes);
                     break; ;
 
                 case 4:
-                    Console.SetCursorPosition(20, 24); Console.Write("En construccion");
+                    ClasificarTrabajos(AProyecto, proyectos);
                     break;
 
                 case 5:
@@ -205,7 +215,7 @@ namespace ControlDeProyectoDeGrado
             Console.Clear();
             Cuadro(1,80,1,25);
             EscSalirEnCuadro();
-            Console.SetCursorPosition(28, 08); Console.Write(colorsubrayado+"Registro de Proyecto");
+            Console.SetCursorPosition(28, 08); Console.Write(colorsubrayado+"Registro de Estudiante");
             Console.ResetColor();
 
 
@@ -419,7 +429,7 @@ namespace ControlDeProyectoDeGrado
 
         //⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇⬇️⬇️------------Consultar------------⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️//
 
-        public static void ConsultarDatos(ArrayList AEstudiantes, Estudiantes estudiantes)
+        public static void ConsultarDatos(ArrayList AProyec, Proyectos proyecto, ArrayList AEstudiantes, Estudiantes estudiantes)
         {
             Console.Clear();
             bool BuscarInactivo = true;
@@ -440,11 +450,59 @@ namespace ControlDeProyectoDeGrado
                 foreach (Estudiantes mostrar in AEstudiantes)
                 {
                     bool acti = mostrar.getActivo();
+                    int consultaestudiante = mostrar.getMatricula();
+
+
                     if (acti == true)
                     {
                         Console.SetCursorPosition(0, fila); Console.Write(mostrar.getCarrera());
                         Console.SetCursorPosition(5, fila); Console.Write(mostrar.getMatricula());
                         Console.SetCursorPosition(16, fila); Console.Write(mostrar.getNombreApellido());
+                        
+                    }
+                    foreach (Proyectos mostrardo in AProyec)
+                    {
+                        int consultaproyecto = mostrardo.getMatricula();
+                        if (consultaestudiante == consultaproyecto)
+                        {
+                            Console.SetCursorPosition(41, fila); Console.Write(mostrardo.getNombreDelProyecto());
+                            string fechainicio = mostrardo.getFechaInicio().ToString("dd/MM/yyyy");
+                            Console.SetCursorPosition(72, fila); Console.Write(fechainicio);
+                            string fechafinal = mostrardo.getFechaEntrega().ToString("dd/MM/yyyy");
+                            Console.SetCursorPosition(88, fila); Console.Write(fechafinal);
+                            int nota = mostrardo.getCalificacion();
+                            if (nota == 0)
+                            {
+                                Console.BackgroundColor = ConsoleColor.Yellow;
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.SetCursorPosition(103, fila); Console.Write("(Sin Calificar)");
+                                Console.ResetColor();
+                            }
+                            else if (nota >= 90 && nota <= 100)
+                            {
+                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(A)");
+                            }
+                            else if (nota >= 80 && nota <= 89)
+                            {
+                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(B)");
+                            }
+                            else if (nota >= 70 && nota <= 79)
+                            {
+                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(C)");
+                            }
+                            else if (nota >= 60 && nota <= 69)
+                            {
+                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(D)");
+                            }
+                            else if (nota <= 59)
+                            {
+                                Console.BackgroundColor = ConsoleColor.Red;
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(F)");
+                                Console.ResetColor();
+                            }
+
+                        }
                     }
                     fila++;
                     for (int linea = 0; linea <= 117; linea++)
@@ -452,9 +510,10 @@ namespace ControlDeProyectoDeGrado
                         Console.SetCursorPosition(linea, fila); Console.Write("-");
                     }
                     fila++;
-
+                   
                     BuscarInactivo = false;
                 }
+                
                 // Buscar todo////////////////////////////////////////////
 
 
@@ -465,7 +524,7 @@ namespace ControlDeProyectoDeGrado
                     string tutu = "";
                     bool numerovacio = true;
                     int todobien = new int();
-
+                    bool numeromal = true;
                     bool control = true;
 
                     ConsoleKeyInfo inicialnumero = new ConsoleKeyInfo();
@@ -497,6 +556,7 @@ namespace ControlDeProyectoDeGrado
                             catch (Exception e)
 
                             {
+                                Console.CursorVisible = false;
                                 Console.SetCursorPosition(20, 23); Console.WriteLine(e.Message);
                                 Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
                                 Console.SetCursorPosition(38, 3); Console.WriteLine(alerta + "Debe dijitar una matricula matricula");
@@ -505,7 +565,9 @@ namespace ControlDeProyectoDeGrado
                                 Console.ResetColor();
                                 Console.SetCursorPosition(38, 3); Console.WriteLine("                                                    ");
                                 Console.SetCursorPosition(38, 4); Console.WriteLine("                                                    ");
-                                numerovacio = true;
+                                numeromal = false;
+                                Console.CursorVisible = true;
+
                             }
                         } while (numerovacio == true);
                         control = true;
@@ -515,7 +577,7 @@ namespace ControlDeProyectoDeGrado
                     {
                         
                         BuscarMatricula = Buscar.getMatricula();
-                        if (todobien == BuscarMatricula)
+                        if (matriculaigual == BuscarMatricula)
                         {
 
                             Console.Clear();
@@ -531,19 +593,66 @@ namespace ControlDeProyectoDeGrado
                             Console.SetCursorPosition(0, fila); Console.Write(Buscar.getCarrera());
                             Console.SetCursorPosition(5, fila); Console.Write(Buscar.getMatricula());
                             Console.SetCursorPosition(16, fila); Console.Write(Buscar.getNombreApellido());
+                            foreach (Proyectos mostrardo in AProyec)
+                            {
+                                int consultaproyecto = mostrardo.getMatricula();
+                                if (matriculaigual == consultaproyecto)
+                                {
+                                    Console.SetCursorPosition(41, fila); Console.Write(mostrardo.getNombreDelProyecto());
+                                    string fechainicio = mostrardo.getFechaInicio().ToString("dd/MM/yyyy");
+                                    Console.SetCursorPosition(72, fila); Console.Write(fechainicio);
+                                    string fechafinal = mostrardo.getFechaEntrega().ToString("dd/MM/yyyy");
+                                    Console.SetCursorPosition(88, fila); Console.Write(fechafinal);
+                                    int nota = mostrardo.getCalificacion();
+                                    if (nota == 0)
+                                        if (nota == 0)
+                                    {
+                                        Console.BackgroundColor = ConsoleColor.Yellow;
+                                        Console.ForegroundColor = ConsoleColor.Black;
+                                        Console.SetCursorPosition(103, fila); Console.Write("(Sin Calificar)");
+                                        Console.ResetColor();
+                                    }
+                                    else if (nota >= 90 && nota <= 100)
+                                    {
+                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(A)");
+                                    }
+                                    else if (nota >= 80 && nota <= 89)
+                                    {
+                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(B)");
+                                    }
+                                    else if (nota >= 70 && nota <= 79)
+                                    {
+                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(C)");
+                                    }
+                                    else if (nota >= 60 && nota <= 69)
+                                    {
+                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(D)");
+                                    }
+                                    else if (nota <= 59)
+                                    {
+                                        Console.BackgroundColor = ConsoleColor.Red;
+                                        Console.ForegroundColor = ConsoleColor.Black;
+                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(F)");
+                                        Console.ResetColor();
+                                    }
+
+                                }
+                            }
                             fila++;
                             for (int linea = 0; linea <= 117; linea++)
                             {
                                 Console.SetCursorPosition(linea, fila); Console.Write("-");
                             }
-                            
+                            numeromal = false;
 
                         }
 
                     }
 
-                    if (BuscarMatricula != matriculaigual)
+
+                    if (BuscarMatricula != matriculaigual && numeromal==true)
                     {
+                        Console.CursorVisible = false;
                         Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
                         Console.SetCursorPosition(39, 3); Console.WriteLine(alerta+"Debe dijitar una matricula Valida.");
                         Console.SetCursorPosition(38, 4); Console.WriteLine(logrado+"Presione enter para volver a dijitar");
@@ -553,11 +662,12 @@ namespace ControlDeProyectoDeGrado
                         Console.SetCursorPosition(38, 4); Console.WriteLine("                                                    ");
                         numerovacio = true;
                         BuscarInactivo = false;
+                        Console.CursorVisible = true;
                     }
-                    if (BuscarMatricula == matriculaigual)
+                    else if (BuscarMatricula == matriculaigual)
                     {
                         ConsoleKeyInfo salir = new ConsoleKeyInfo();
-
+                        Console.CursorVisible = false;
                         Console.SetCursorPosition(33, 3); Console.Write("Opciones | Scape: Menu - Enter: Seguir Busqueda |");
                         salir = Console.ReadKey(true);
                         if (salir.Key == ConsoleKey.Escape)
@@ -569,26 +679,452 @@ namespace ControlDeProyectoDeGrado
                             Console.SetCursorPosition(33, 3); Console.Write("                                                        ");
                             BuscarInactivo = false;
                         }
-
+                        Console.CursorVisible = true;
                     }
+                    numeromal = true;
+                    
 
                 } while (BuscarInactivo == false);
-
-
-
-
-
-
-
-
-
-
-
-
 
             }
         }
         //⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️------------Consultar------------⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️//
+
+        //⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇⬇️⬇️------------Registro de Proyectos------------⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️//
+
+
+        public static void Registrarproyectos(ArrayList AProyec, Proyectos proyec, ArrayList AEstudiantes, Estudiantes estudiantes)
+        {
+
+
+            int aidproyecto = 0, amatricula = 0, acalificacion = 0;
+            string anombredelproyecto = "";
+            DateTime afechainicio, afechaentrega;
+
+            Console.Clear();
+            Cuadro(1, 80, 1, 25);
+            EscSalirEnCuadro();
+            Console.SetCursorPosition(28, 08); Console.Write(colorsubrayado+"Registro de Proyecto");
+            Console.ResetColor();
+
+            bool idproyectoigual = true;
+
+            do
+            {
+                foreach (Proyectos id in AProyec)
+                {
+                    int idigual = id.getIDProyecto();
+                    if (aidproyecto == idigual)
+                    {
+                        aidproyecto++;
+                    }else if (aidproyecto != idigual)
+                    {
+                        idproyectoigual = false;
+                    }
+                }
+
+            } while (idproyectoigual == true);
+
+
+
+            int BuscarMatricula = 0;
+            int matriculaigual = 0;
+            string tutu = "";
+            bool numerovacio = true;
+            int todobien = new int();
+            bool BuscarInactivo = false;
+            string nombreestudiante = "";
+
+            bool control = true;
+
+            ConsoleKeyInfo inicialnumero = new ConsoleKeyInfo();
+
+            Console.SetCursorPosition(28, 12); Console.Write("Matricula:");
+            //Console.SetCursorPosition(51, 4); 
+            do
+            {
+                Console.SetCursorPosition(38, 12);
+                do
+                {
+                    Console.SetCursorPosition(38, 12); inicialnumero = Console.ReadKey();
+                if (inicialnumero.Key == ConsoleKey.Escape)
+                {
+                    return;
+                }
+                else if (inicialnumero.Key == ConsoleKey.Enter)
+                {
+                    numerovacio = false;
+                    control = false;
+                }
+                else if (inicialnumero.Key != ConsoleKey.Enter && control == true)
+                {
+                    
+                        try
+                        {
+                            char numerito = inicialnumero.KeyChar;
+                            tutu = Console.ReadLine();
+                            numerovacio = false;
+                            todobien = int.Parse(numerito + tutu);
+                            matriculaigual = todobien;
+                        }
+                        catch (Exception e)
+
+                        {
+                            Console.CursorVisible = false;
+                            Console.SetCursorPosition(20, 23); Console.WriteLine(e.Message);
+                            Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
+                            Console.SetCursorPosition(23, 23); Console.WriteLine(alerta + "Debe dijitar una matricula matricula");
+                            Console.SetCursorPosition(23, 24); Console.WriteLine(logrado + "Presione enter para volver a dijitar");
+                            Console.ReadKey(true);
+                            Console.ResetColor();
+                            numerovacio = true;
+                            Console.SetCursorPosition(38, 12); Console.WriteLine("                                    ");
+                            Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
+                            Console.SetCursorPosition(20, 24); Console.WriteLine("                                                    ");
+                            Console.CursorVisible = true;
+                        }
+                    } 
+                    
+                } while (numerovacio == true);
+                control = true;
+                bool noentrar = false;
+                foreach (Estudiantes Buscar in AEstudiantes)
+                {
+                    BuscarMatricula = Buscar.getMatricula();
+                    if (todobien == BuscarMatricula)
+                    {
+
+                        Console.ResetColor();
+                        Console.SetCursorPosition(0, 0); Console.Write(Buscar.getMatricula());
+                        amatricula = todobien;
+                        BuscarInactivo = true;
+                        noentrar = true;
+                        nombreestudiante = Buscar.getNombreApellido();
+                    }
+                    
+                    
+
+                }
+                control = false;
+                if (BuscarMatricula != matriculaigual && control == false && noentrar == false)
+                {
+
+                    Console.CursorVisible = false;
+                    
+                    Console.SetCursorPosition(24, 23); Console.WriteLine(alerta + "Debe dijitar una matricula Valida.");
+                    Console.SetCursorPosition(23, 24); Console.WriteLine(logrado + "Presione enter para volver a dijitar");
+                    Console.ReadKey(true);
+                    Console.ResetColor();
+                    Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
+                    Console.SetCursorPosition(20, 24); Console.WriteLine("                                                    ");
+                    numerovacio = true;
+                    BuscarInactivo = false;
+                    Console.CursorVisible = true;
+                    control = true;
+                    Console.SetCursorPosition(38, 12); Console.WriteLine("                                    ");
+                }
+                /*if (BuscarMatricula == matriculaigual)
+                {
+                    ConsoleKeyInfo salir = new ConsoleKeyInfo();
+                    Console.CursorVisible = false;
+                    Console.SetCursorPosition(33, 3); Console.Write("Opciones | Scape: Menu - Enter: Seguir Busqueda |");
+                    salir = Console.ReadKey(true);
+                    if (salir.Key == ConsoleKey.Escape)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(33, 3); Console.Write("                                                        ");
+                        BuscarInactivo = false;
+                    }
+                    Console.CursorVisible = true;
+                }*/
+
+            } while (BuscarInactivo == false);
+
+            foreach (Proyectos revisar in AProyec){
+                int mismamatricula = revisar.getMatricula();
+                if (mismamatricula == amatricula)
+                {
+                    {
+                        Console.Clear();
+                        Cuadro(1, 80, 1, 25);
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.SetCursorPosition(10, 11); Console.WriteLine("La matricula de este estudiante ya registrado en un proyecto");
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.SetCursorPosition(23, 12); Console.WriteLine("Presione enter para volver al menu");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                        return;
+                    }
+                }
+            }
+
+            Console.SetCursorPosition(28, 13); Console.Write("Nombre y Apellido:");
+            Console.WriteLine(nombreestudiante);
+
+
+            bool proyectovaciovacio = false;
+            bool nombredeproyectoigual = true;
+            string arraynombredeproyecto = "";
+            string igualnombredeproyecto = "";
+            do
+            {
+                Console.SetCursorPosition(28, 14); Console.Write("Nombre del Proyecto:");
+                anombredelproyecto = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(anombredelproyecto))
+                {
+                    Console.SetCursorPosition(21, 23); Console.WriteLine(alerta+"Debe de dijitar el proyecto seleccionado");
+                    Console.SetCursorPosition(23, 24); Console.WriteLine(logrado+"Presione enter para volver a dijitar");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                    Console.SetCursorPosition(20, 23); Console.WriteLine("                                              ");
+                    Console.SetCursorPosition(20, 24); Console.WriteLine("                                               ");
+                    proyectovaciovacio = true;
+                }
+                else
+                {
+
+                    foreach (Proyectos revisar in AProyec)
+                    {
+                        arraynombredeproyecto = revisar.getNombreDelProyecto();
+
+                        if (arraynombredeproyecto == anombredelproyecto)
+                        {
+                            igualnombredeproyecto = arraynombredeproyecto;
+                            proyectovaciovacio = false;
+                        }
+                    }
+                }
+
+
+                if (igualnombredeproyecto == anombredelproyecto && proyectovaciovacio == false)
+                {                   
+                    Console.SetCursorPosition(23, 23); Console.WriteLine(alerta+"Este proyecto ya a sido registrado");
+                    Console.SetCursorPosition(23, 24); Console.WriteLine(logrado+"Presione enter para volver a dijitar");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                    Console.SetCursorPosition(20, 23); Console.WriteLine("                                                      ");
+                    Console.SetCursorPosition(20, 24); Console.WriteLine("                                                     ");
+                    Console.SetCursorPosition(29, 14); Console.WriteLine("                                             ");
+                }
+                else if (igualnombredeproyecto != anombredelproyecto && proyectovaciovacio == false)
+                {
+                    nombredeproyectoigual = false;
+                }
+
+                proyectovaciovacio = false;
+            } while (nombredeproyectoigual == true);
+
+
+ 
+            
+            bool fechainiciomal = true;
+
+            do
+            {
+                Console.SetCursorPosition(20, 15); Console.Write("Ingresa una fecha de inicio (dd/mm/yyyy):");
+                Console.SetCursorPosition(33, 16); string fechainicio = Console.ReadLine();
+
+                if (DateTime.TryParse(fechainicio, out afechainicio))
+                {
+                    fechainiciomal = false;
+                }
+                else
+                {
+                    Console.CursorVisible = false;
+                    Console.SetCursorPosition(19, 23); Console.WriteLine(alerta + "El formato de fecha ingresado es incorrecto.");
+                    Console.SetCursorPosition(23, 24); Console.WriteLine(logrado + "Presione enter para volver a dijitar");
+                    Console.ReadKey(true);
+                    Console.ResetColor();
+                    Console.SetCursorPosition(19, 23); Console.WriteLine("                                                      ");
+                    Console.SetCursorPosition(20, 24); Console.WriteLine("                                                     ");
+                    Console.SetCursorPosition(33, 16); Console.WriteLine("                                             ");
+                    Console.CursorVisible = true;
+                }
+            } while (fechainiciomal == true);
+
+           
+            
+            bool fechafinalomal = true;
+
+            do
+            {
+                Console.SetCursorPosition(20, 17); Console.Write("Ingresa una fecha de entrega (dd/mm/yyyy):");
+                Console.SetCursorPosition(33, 18); string fechafinal = Console.ReadLine();
+
+                if (DateTime.TryParse(fechafinal, out afechaentrega))
+                {
+                    fechafinalomal = false;
+                }
+                else
+                {
+                    Console.CursorVisible = false;
+                    Console.SetCursorPosition(19, 23); Console.WriteLine(alerta + "El formato de fecha ingresado es incorrecto.");
+                    Console.SetCursorPosition(23, 24); Console.WriteLine(logrado + "Presione enter para volver a dijitar");
+                    Console.ReadKey(true);
+                    Console.ResetColor();
+                    Console.SetCursorPosition(19, 23); Console.WriteLine("                                                      ");
+                    Console.SetCursorPosition(20, 24); Console.WriteLine("                                                     ");
+                    Console.SetCursorPosition(33, 18); Console.WriteLine("                                             ");
+                    Console.CursorVisible = true;
+                }
+            } while (fechafinalomal == true);
+
+            AProyec.Add(new Proyectos(anombredelproyecto,afechainicio, afechaentrega, aidproyecto, amatricula, acalificacion));
+            Console.Clear();
+            Cuadro(1,80,1,25);
+            Console.CursorVisible = false;
+            Console.SetCursorPosition(23, 11); Console.Write(logrado+"Proyecto registrado correctamente.");
+            Console.SetCursorPosition(23, 12); Console.Write(logrado+"Presione enter para volver al menu");
+            Console.ResetColor();
+            Console.ReadKey(true);
+            Console.CursorVisible = true;
+
+        }
+
+
+
+
+
+        //⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️------------Registro de Proyectos------------⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️//
+
+        //⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇⬇️⬇️------------Calificacion------------⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️//
+
+        public static void ClasificarTrabajos(ArrayList AProyec, Proyectos proyec)
+        {
+
+
+            int calificacion = 200;
+            bool activo = true;
+            bool matrivacia = true;
+            string matricula = "";
+            int matriculacompleta = 0;
+            bool entrardijitos = true;
+            bool control = true;
+
+            while (activo == true)
+            {
+
+                ConsoleKeyInfo numeroinicio = new ConsoleKeyInfo();
+                Console.Clear();
+                Cuadro(1, 80, 1, 25);
+                EscSalirEnCuadro();
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.SetCursorPosition(20, 08); Console.Write("Publicacion o modificacion de calificacion");
+                Console.ResetColor();
+                Console.SetCursorPosition(26, 11); Console.Write("Dijite la matricula:");
+                numeroinicio = Console.ReadKey();
+
+                if (numeroinicio.Key == ConsoleKey.Escape)
+                {
+                    return;
+
+                }
+                else if (numeroinicio.Key == ConsoleKey.Enter)
+                {
+                    matrivacia = false;
+
+                }
+                else if (numeroinicio.Key != ConsoleKey.Enter && entrardijitos == true)
+                {
+                    do
+                    {
+
+                        try
+                        {
+                            char numerito = numeroinicio.KeyChar;
+                            matricula = Console.ReadLine();
+                            matriculacompleta = int.Parse(numerito + matricula);
+                            matrivacia = false;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.SetCursorPosition(25, 11); Console.Write(e);
+                            Console.Clear();
+                            Cuadro(1, 80, 1, 25);
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.SetCursorPosition(25, 11); Console.Write("Debe de dijitar la matricula");
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.SetCursorPosition(25, 12); Console.Write("Presione enter para dijitar.");
+                            Console.ResetColor();
+                            Console.ReadKey();
+                            matrivacia = false;
+                            control = false;
+                        }
+
+
+                    } while (matrivacia == true);
+                }
+                entrardijitos = true;
+
+                foreach (Proyectos modificar in AProyec)
+                {
+                    int matriculacomparar = modificar.getMatricula();
+
+                    if (matriculacompleta == matriculacomparar)
+                    {
+                        do
+                        {
+
+                            Console.Clear();
+                            Cuadro(1, 80, 1, 25);
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.SetCursorPosition(20, 08); Console.Write("Publicacion o modificacion de calificacion");
+                            Console.ResetColor();
+                            Console.SetCursorPosition(26, 11); Console.Write("Dijite la calificacion:");
+                            calificacion = Convert.ToInt32(Console.ReadLine());
+                            if (calificacion < 0 || calificacion > 100)
+                            {
+                                Console.Clear();
+                                Cuadro(1, 80, 1, 25);
+                                Console.BackgroundColor = ConsoleColor.Red;
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.SetCursorPosition(25, 11); Console.Write("Dijite una calificacion valida");
+                                Console.BackgroundColor = ConsoleColor.Green;
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.SetCursorPosition(25, 11); Console.Write("Dijite una calificacion valida");
+                                Console.ResetColor();
+                                Console.ReadKey();
+                            }
+                            modificar.setCalificacion(calificacion);
+
+                        } while (calificacion < 0 || calificacion > 100);
+                        activo = false;
+                    }
+
+                }
+
+                if (activo == true && control == true)
+                {
+                    Console.Clear();
+                    Cuadro(1, 80, 1, 25);
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.SetCursorPosition(27, 11); Console.Write("Dijite una matricula valida");
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.SetCursorPosition(27, 12); Console.Write("Presione enter para dijitar");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                    matrivacia = true;
+
+                }
+
+                control = true;
+            }
+
+        }
+
+        //⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️------------Calificacion------------⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️//
 
         public static void EscSalirEnCuadro()
         {
@@ -669,6 +1205,5 @@ namespace ControlDeProyectoDeGrado
 
 
 
-
+        }//
     }//
-}//
