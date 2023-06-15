@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.IO;
 
 namespace ControlDeProyectoDeGrado
 {
@@ -23,8 +24,7 @@ namespace ControlDeProyectoDeGrado
 
 
             AEstudiantes.Add(new Estudiantes(20230000, "Wilber", "ISC", true));
-            AEstudiantes.Add(new Estudiantes(20230001, "Wilsairy", "MED", true));
-
+            AEstudiantes.Add(new Estudiantes(20230001, "Wilsairy", "MED", false));
 
             string fecha1 = "12/12/2023";
             string fecha2 = "13/12/2025";
@@ -116,7 +116,7 @@ namespace ControlDeProyectoDeGrado
                 Console.SetCursorPosition(15, 11); Console.Write($"{(op == 2 ? colorsubrayado : "")}2- Registrar Proyecto de grado\u001b[0m");
                 Console.SetCursorPosition(15, 12); Console.Write($"{(op == 3 ? colorsubrayado : "")}3- Consulta\u001b[0m");
                 Console.SetCursorPosition(15, 13); Console.Write($"{(op == 4 ? colorsubrayado : "")}4- Calificar\u001b[0m");
-                //Console.SetCursorPosition(15, 14); Console.Write($"{(op == 5 ? colorsubrayado : "")}5- Salir\u001b[0m");
+                Console.SetCursorPosition(15, 14); Console.Write($"{(op == 5 ? colorsubrayado : "")}5- Salir\u001b[0m");
                 //Console.SetCursorPosition(15, 13); Console.Write("6-");
                 //Console.SetCursorPosition(15, 15); Console.Write("0-");   
 
@@ -189,9 +189,8 @@ namespace ControlDeProyectoDeGrado
                 case 4:
                     ClasificarTrabajos(AProyecto, proyectos);
                     break;
-
                 case 5:
-                    Console.SetCursorPosition(20, 24); Console.Write("En construccion");
+                    Environment.Exit(0);
                     break;
 
                 case 6:
@@ -438,7 +437,7 @@ namespace ControlDeProyectoDeGrado
                 Console.Clear();
                 int fila = 8;
                 Console.SetCursorPosition(45, 1); Console.Write(colorsubrayado+"Consulta de Proyectos");
-                Console.SetCursorPosition(0, 6); Console.Write(colorsubrayado+"C.U| Matricula |   Nombre y Apellido    |    Nombre Del Proyecto    |Fecha de inicio|Fecha de Entrega|  Calificacion  ");
+                Console.SetCursorPosition(0, 6); Console.Write(colorsubrayado + "C.U| Matricula |   Nombre y Apellido    |    Nombre Del Proyecto    |Fecha inicio|Fecha Entrega|  Calificacion  | A/I ");
                 Console.ResetColor();
                 for (int linea = 0; linea <= 117; linea++)
                 {
@@ -449,17 +448,23 @@ namespace ControlDeProyectoDeGrado
 
                 foreach (Estudiantes mostrar in AEstudiantes)
                 {
-                    bool acti = mostrar.getActivo();
+                    //bool acti = mostrar.getActivo();
                     int consultaestudiante = mostrar.getMatricula();
 
 
-                    if (acti == true)
-                    {
+                    //if (acti == true)
+                    //{
                         Console.SetCursorPosition(0, fila); Console.Write(mostrar.getCarrera());
                         Console.SetCursorPosition(5, fila); Console.Write(mostrar.getMatricula());
                         Console.SetCursorPosition(16, fila); Console.Write(mostrar.getNombreApellido());
-                        
-                    }
+                        bool activo = mostrar.getActivo();
+                        if (activo == true)
+                        {
+                            Console.SetCursorPosition(115, fila); Console.Write("A");
+                        }
+                        else { Console.SetCursorPosition(115, fila); Console.Write("I"); }
+
+                   // }
                     foreach (Proyectos mostrardo in AProyec)
                     {
                         int consultaproyecto = mostrardo.getMatricula();
@@ -467,38 +472,36 @@ namespace ControlDeProyectoDeGrado
                         {
                             Console.SetCursorPosition(41, fila); Console.Write(mostrardo.getNombreDelProyecto());
                             string fechainicio = mostrardo.getFechaInicio().ToString("dd/MM/yyyy");
-                            Console.SetCursorPosition(72, fila); Console.Write(fechainicio);
+                            Console.SetCursorPosition(70, fila); Console.Write(fechainicio);
                             string fechafinal = mostrardo.getFechaEntrega().ToString("dd/MM/yyyy");
-                            Console.SetCursorPosition(88, fila); Console.Write(fechafinal);
+                            Console.SetCursorPosition(83, fila); Console.Write(fechafinal);
                             int nota = mostrardo.getCalificacion();
                             if (nota == 0)
                             {
                                 Console.BackgroundColor = ConsoleColor.Yellow;
                                 Console.ForegroundColor = ConsoleColor.Black;
-                                Console.SetCursorPosition(103, fila); Console.Write("(Sin Calificar)");
+                                Console.SetCursorPosition(97, fila); Console.Write("(Sin Calificar)");
                                 Console.ResetColor();
                             }
                             else if (nota >= 90 && nota <= 100)
                             {
-                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(A)");
+                                Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(A)");
                             }
                             else if (nota >= 80 && nota <= 89)
                             {
-                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(B)");
+                                Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(B)");
                             }
                             else if (nota >= 70 && nota <= 79)
                             {
-                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(C)");
+                                Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(C)");
                             }
                             else if (nota >= 60 && nota <= 69)
                             {
-                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(D)");
+                                Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(D)");
                             }
                             else if (nota <= 59)
                             {
-                                Console.BackgroundColor = ConsoleColor.Red;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(F)");
+                                Console.SetCursorPosition(101, fila); Console.Write(alerta+mostrardo.getCalificacion() + "(F)");
                                 Console.ResetColor();
                             }
 
@@ -561,7 +564,7 @@ namespace ControlDeProyectoDeGrado
                                 Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
                                 Console.SetCursorPosition(38, 3); Console.WriteLine(alerta + "Debe dijitar una matricula matricula");
                                 Console.SetCursorPosition(38, 4); Console.WriteLine(logrado + "Presione enter para volver a dijitar");
-                                Console.ReadKey();
+                                Console.ReadKey(true);
                                 Console.ResetColor();
                                 Console.SetCursorPosition(38, 3); Console.WriteLine("                                                    ");
                                 Console.SetCursorPosition(38, 4); Console.WriteLine("                                                    ");
@@ -583,7 +586,7 @@ namespace ControlDeProyectoDeGrado
                             Console.Clear();
                             fila = 8;
                             Console.SetCursorPosition(50, 1); Console.Write(colorsubrayado+"Resultados");
-                            Console.SetCursorPosition(0, 6); Console.Write(colorsubrayado+"C.U| Matricula |   Nombre y Apellido    |    Nombre Del Proyecto    |Fecha de inicio|Fecha de Entrega|  Calificacion  ");
+                            Console.SetCursorPosition(0, 6); Console.Write(colorsubrayado+ "C.U| Matricula |   Nombre y Apellido    |    Nombre Del Proyecto    |Fecha inicio|Fecha Entrega|  Calificacion  | A/I ");
                             Console.ResetColor();
                             for (int linea = 0; linea <= 117; linea++)
                             {
@@ -600,41 +603,39 @@ namespace ControlDeProyectoDeGrado
                                 {
                                     Console.SetCursorPosition(41, fila); Console.Write(mostrardo.getNombreDelProyecto());
                                     string fechainicio = mostrardo.getFechaInicio().ToString("dd/MM/yyyy");
-                                    Console.SetCursorPosition(72, fila); Console.Write(fechainicio);
+                                    Console.SetCursorPosition(70, fila); Console.Write(fechainicio);
                                     string fechafinal = mostrardo.getFechaEntrega().ToString("dd/MM/yyyy");
-                                    Console.SetCursorPosition(88, fila); Console.Write(fechafinal);
+                                    Console.SetCursorPosition(83, fila); Console.Write(fechafinal);
                                     int nota = mostrardo.getCalificacion();
                                     if (nota == 0)
                                         if (nota == 0)
-                                    {
-                                        Console.BackgroundColor = ConsoleColor.Yellow;
-                                        Console.ForegroundColor = ConsoleColor.Black;
-                                        Console.SetCursorPosition(103, fila); Console.Write("(Sin Calificar)");
-                                        Console.ResetColor();
-                                    }
-                                    else if (nota >= 90 && nota <= 100)
-                                    {
-                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(A)");
-                                    }
-                                    else if (nota >= 80 && nota <= 89)
-                                    {
-                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(B)");
-                                    }
-                                    else if (nota >= 70 && nota <= 79)
-                                    {
-                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(C)");
-                                    }
-                                    else if (nota >= 60 && nota <= 69)
-                                    {
-                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(D)");
-                                    }
-                                    else if (nota <= 59)
-                                    {
-                                        Console.BackgroundColor = ConsoleColor.Red;
-                                        Console.ForegroundColor = ConsoleColor.Black;
-                                        Console.SetCursorPosition(107, fila); Console.Write(mostrardo.getCalificacion() + "(F)");
-                                        Console.ResetColor();
-                                    }
+                                        {
+                                            Console.BackgroundColor = ConsoleColor.Yellow;
+                                            Console.ForegroundColor = ConsoleColor.Black;
+                                            Console.SetCursorPosition(97, fila); Console.Write(colorsubrayado + "(Sin Calificar)");
+                                            Console.ResetColor();
+                                        }
+                                        else if (nota >= 90 && nota <= 100)
+                                        {
+                                            Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(A)");
+                                        }
+                                        else if (nota >= 80 && nota <= 89)
+                                        {
+                                            Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(B)");
+                                        }
+                                        else if (nota >= 70 && nota <= 79)
+                                        {
+                                            Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(C)");
+                                        }
+                                        else if (nota >= 60 && nota <= 69)
+                                        {
+                                            Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(D)");
+                                        }
+                                        else if (nota <= 59)
+                                        {
+                                            Console.SetCursorPosition(101, fila); Console.Write(alerta + mostrardo.getCalificacion() + "(F)");
+                                            Console.ResetColor();
+                                        }
 
                                 }
                             }
@@ -656,7 +657,7 @@ namespace ControlDeProyectoDeGrado
                         Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
                         Console.SetCursorPosition(39, 3); Console.WriteLine(alerta+"Debe dijitar una matricula Valida.");
                         Console.SetCursorPosition(38, 4); Console.WriteLine(logrado+"Presione enter para volver a dijitar");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         Console.ResetColor();
                         Console.SetCursorPosition(38, 3); Console.WriteLine("                                                    ");
                         Console.SetCursorPosition(38, 4); Console.WriteLine("                                                    ");
@@ -664,7 +665,7 @@ namespace ControlDeProyectoDeGrado
                         BuscarInactivo = false;
                         Console.CursorVisible = true;
                     }
-                    else if (BuscarMatricula == matriculaigual)
+                    else if(numeromal==true) //(BuscarMatricula == matriculaigual)
                     {
                         ConsoleKeyInfo salir = new ConsoleKeyInfo();
                         Console.CursorVisible = false;
