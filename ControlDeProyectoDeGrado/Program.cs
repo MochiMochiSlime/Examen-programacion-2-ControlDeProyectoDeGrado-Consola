@@ -463,7 +463,7 @@ namespace ControlDeProyectoDeGrado
                         {
                             Console.SetCursorPosition(115, fila); Console.Write("A");
                         }
-                        else { Console.SetCursorPosition(115, fila); Console.Write("I"); }
+                        else if(activo == false) { Console.SetCursorPosition(115, fila); Console.Write("I"); }
 
                    // }
                     foreach (Proyectos mostrardo in AProyec)
@@ -520,175 +520,270 @@ namespace ControlDeProyectoDeGrado
                 
                 // Buscar todo////////////////////////////////////////////
 
+            }
+            buscartodo(AProyec, proyecto, AEstudiantes, estudiantes);
+        }
 
-                do
+        public static void buscartodo(ArrayList AProyec, Proyectos proyecto, ArrayList AEstudiantes, Estudiantes estudiantes)
+        {
+            bool BuscarInactivo = true;
+
+
+
+
+            do
+            {
+                int BuscarMatricula = 0;
+                int matriculaigual = 0;
+                string tutu = "";
+                bool numerovacio = true;
+                int todobien = new int();
+                bool numeromal = true;
+                bool control = true;
+                bool entrar = false;
+
+                ConsoleKeyInfo inicialnumero = new ConsoleKeyInfo();
+
+                Console.SetCursorPosition(0, 0); Console.Write("Preciona Esc para volver al menu");
+                Console.SetCursorPosition(45, 3); Console.Write("Dijita la matricula.:");
+                Console.SetCursorPosition(51, 4); inicialnumero = Console.ReadKey();
+
+                if (inicialnumero.Key == ConsoleKey.Escape)
                 {
-                    int BuscarMatricula = 0;
-                    int matriculaigual = 0;
-                    string tutu = "";
-                    bool numerovacio = true;
-                    int todobien = new int();
-                    bool numeromal = true;
-                    bool control = true;
+                    return;
+                }
+                else if (inicialnumero.Key == ConsoleKey.Enter)
+                {
+                    control = false;
+                }
+                else if (inicialnumero.Key != ConsoleKey.Enter && control == true)
+                {
+                    do
+                    {
+                        try
+                        {
+                            char numerito = inicialnumero.KeyChar;
+                            Console.SetCursorPosition(52, 4); tutu = Console.ReadLine();
+                            numerovacio = false;
+                            todobien = int.Parse(numerito + tutu);
+                            matriculaigual = todobien;
+                        }
+                        catch (Exception e)
 
-                    ConsoleKeyInfo inicialnumero = new ConsoleKeyInfo();
+                        {
+                            Console.CursorVisible = false;
+                            Console.SetCursorPosition(20, 23); Console.WriteLine(e.Message);
+                            Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
+                            Console.SetCursorPosition(38, 3); Console.WriteLine(alerta + "Debe dijitar una matricula matricula");
+                            Console.SetCursorPosition(38, 4); Console.WriteLine(logrado + "Presione enter para volver a dijitar");
+                            Console.ReadKey(true);
+                            Console.ResetColor();
+                            Console.SetCursorPosition(38, 3); Console.WriteLine("                                                    ");
+                            Console.SetCursorPosition(38, 4); Console.WriteLine("                                                    ");
+                            numeromal = false;
+                            Console.CursorVisible = true;
 
-                    Console.SetCursorPosition(0, 0); Console.Write("Preciona Esc para volver al menu");
-                    Console.SetCursorPosition(45, 3); Console.Write("Dijita la matricula.:");
-                    Console.SetCursorPosition(51, 4); inicialnumero = Console.ReadKey();
+                        }
+                    } while (numerovacio == true);
+                    control = true;
+                }
 
-                    if (inicialnumero.Key == ConsoleKey.Escape)
+                foreach (Estudiantes Buscar in AEstudiantes)
+                {
+
+                    BuscarMatricula = Buscar.getMatricula();
+                    if (matriculaigual == BuscarMatricula)
+                    {
+
+                        Console.Clear();
+                        int fila = 8;
+                        Console.SetCursorPosition(50, 1); Console.Write(colorsubrayado + "Resultados");
+                        Console.SetCursorPosition(0, 6); Console.Write(colorsubrayado + "C.U| Matricula |   Nombre y Apellido    |    Nombre Del Proyecto    |Fecha inicio|Fecha Entrega|  Calificacion  | A/I ");
+                        Console.ResetColor();
+                        for (int linea = 0; linea <= 117; linea++)
+                        {
+                            Console.SetCursorPosition(linea, 7); Console.Write("-");
+                        }
+                        Console.SetCursorPosition(0, fila); Console.Write(Buscar.getCarrera());
+                        Console.SetCursorPosition(5, fila); Console.Write(Buscar.getMatricula());
+                        Console.SetCursorPosition(16, fila); Console.Write(Buscar.getNombreApellido());
+                        bool activo = Buscar.getActivo();
+                        if (activo == true)
+                        {
+                            Console.SetCursorPosition(115, fila); Console.Write("A");
+                        }
+                        else if (activo == false) { Console.SetCursorPosition(115, fila); Console.Write("I"); }
+                        foreach (Proyectos mostrardo in AProyec)
+                        {
+                            int consultaproyecto = mostrardo.getMatricula();
+                            if (matriculaigual == consultaproyecto)
+                            {
+                                Console.SetCursorPosition(41, fila); Console.Write(mostrardo.getNombreDelProyecto());
+                                string fechainicio = mostrardo.getFechaInicio().ToString("dd/MM/yyyy");
+                                Console.SetCursorPosition(70, fila); Console.Write(fechainicio);
+                                string fechafinal = mostrardo.getFechaEntrega().ToString("dd/MM/yyyy");
+                                Console.SetCursorPosition(83, fila); Console.Write(fechafinal);
+                                int nota = mostrardo.getCalificacion();
+                                if (nota == 0)
+                                {
+                                    Console.BackgroundColor = ConsoleColor.Yellow;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                    Console.SetCursorPosition(97, fila); Console.Write("(Sin Calificar)");
+                                    Console.ResetColor();
+                                }
+                                else if (nota >= 90 && nota <= 100)
+                                {
+                                    Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(A)");
+                                }
+                                else if (nota >= 80 && nota <= 89)
+                                {
+                                    Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(B)");
+                                }
+                                else if (nota >= 70 && nota <= 79)
+                                {
+                                    Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(C)");
+                                }
+                                else if (nota >= 60 && nota <= 69)
+                                {
+                                    Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(D)");
+                                }
+                                else if (nota <= 59)
+                                {
+                                    Console.SetCursorPosition(101, fila); Console.Write(alerta + mostrardo.getCalificacion() + "(F)");
+                                    Console.ResetColor();
+                                }
+                                
+                            }
+                            entrar = true;
+                        }
+                        fila++;
+                        for (int linea = 0; linea <= 117; linea++)
+                        {
+                            Console.SetCursorPosition(linea, fila); Console.Write("-");
+                        }
+                        numeromal = false;
+
+                    }
+
+                }
+
+
+                if (BuscarMatricula != matriculaigual && numeromal == true)
+                {
+                    Console.CursorVisible = false;
+                    Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
+                    Console.SetCursorPosition(39, 3); Console.WriteLine(alerta + "Debe dijitar una matricula Valida.");
+                    Console.SetCursorPosition(38, 4); Console.WriteLine(logrado + "Presione enter para volver a dijitar");
+                    Console.ReadKey(true);
+                    Console.ResetColor();
+                    Console.SetCursorPosition(38, 3); Console.WriteLine("                                                    ");
+                    Console.SetCursorPosition(38, 4); Console.WriteLine("                                                    ");
+                    numerovacio = true;
+                    BuscarInactivo = false;
+                    Console.CursorVisible = true;
+                }
+                else if (entrar == true) //(BuscarMatricula == matriculaigual)
+                {
+
+                    int opcion = 1;
+                    do
+                    {
+                        ConsoleKeyInfo seleccion = new ConsoleKeyInfo();
+                        while (true)
+                        {
+                            Console.CursorVisible = false;
+                            Console.SetCursorPosition(19, 3); Console.Write("Opciones |                |                 |                                |");
+                            Console.SetCursorPosition(30, 3); Console.Write($"{(opcion == 1 ? colorsubrayado : "")}Volver al menu\u001b[0m");
+                            Console.SetCursorPosition(47, 3); Console.Write($"{(opcion == 2 ? colorsubrayado : "")}Seguir Busqueda\u001b[0m");
+                            Console.SetCursorPosition(65, 3); Console.Write($"{(opcion == 3 ? colorsubrayado : "")}Activar/Desactivar(estudiante)\u001b[0m");
+                            seleccion = Console.ReadKey(true);
+                            if (seleccion.Key == ConsoleKey.RightArrow)
+                            {
+                                opcion++;
+                            }
+                            else if (seleccion.Key == ConsoleKey.LeftArrow)
+                            {
+                                opcion--;
+                            }else if(seleccion.Key == ConsoleKey.Enter)
+                            {
+                                break;
+                            }
+
+                            if (opcion < 1)
+                            {
+                                opcion = 3;
+                            }else if(opcion>3)
+                            {                            
+                                opcion = 1;
+                            }
+                        }
+                        
+                        Console.CursorVisible = true;
+                        Console.SetCursorPosition(19, 3); Console.Write("                                                                               ");
+                        
+                        switch (opcion)
+                        {
+                            case 1:
+                                return;                      
+
+                            case 2:
+                                entrar = false;
+                                break;
+
+                            case 3:
+                                foreach (Estudiantes cambiar in AEstudiantes)
+                                {
+                                    int buscarcambio = cambiar.getMatricula();
+                                    bool cambio = cambiar.getActivo();
+                                    cambio = !cambio;
+                                    if (todobien == buscarcambio)
+                                    {
+                                        cambiar.setActivo(cambio);
+                                        if (cambio == true)
+                                        {
+                                            Console.CursorVisible = false;
+                                            Console.SetCursorPosition(115, 8); Console.Write("A");
+                                            Console.SetCursorPosition(45, 3); Console.Write(logrado+"Estudiante activado.");
+                                            Console.ResetColor();                                          
+                                            Console.ReadKey(); 
+                                            Console.CursorVisible = true;
+                                        }
+                                        else if (cambio == false) 
+                                        {
+                                            Console.CursorVisible = false;
+                                            Console.SetCursorPosition(115, 8); Console.Write("I");
+                                            Console.SetCursorPosition(44, 3); Console.Write(alerta+"Estudiante desactivado");
+                                            Console.ResetColor();
+                                            Console.ReadKey();
+                                            Console.CursorVisible = true;
+                                        }
+                                        
+                                    }
+                                }
+                                break;
+                        }
+                    } while (entrar == true);
+
+
+                    /*Console.CursorVisible = false;
+                    Console.SetCursorPosition(33, 3); Console.Write("Opciones | Scape: Menu - Enter: Seguir Busqueda |");
+                    salir = Console.ReadKey(true);
+                    if (salir.Key == ConsoleKey.Escape)
                     {
                         return;
                     }
-                    else if (inicialnumero.Key == ConsoleKey.Enter) 
+                    else
                     {
-                        control = false;
-                    }
-                    else if (inicialnumero.Key != ConsoleKey.Enter && control == true)
-                    {
-                        do
-                        {
-                            try
-                            {
-                                char numerito = inicialnumero.KeyChar;
-                                Console.SetCursorPosition(52, 4); tutu = Console.ReadLine();
-                                numerovacio = false;
-                                todobien = int.Parse(numerito + tutu);
-                                matriculaigual = todobien;
-                            }
-                            catch (Exception e)
-
-                            {
-                                Console.CursorVisible = false;
-                                Console.SetCursorPosition(20, 23); Console.WriteLine(e.Message);
-                                Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
-                                Console.SetCursorPosition(38, 3); Console.WriteLine(alerta + "Debe dijitar una matricula matricula");
-                                Console.SetCursorPosition(38, 4); Console.WriteLine(logrado + "Presione enter para volver a dijitar");
-                                Console.ReadKey(true);
-                                Console.ResetColor();
-                                Console.SetCursorPosition(38, 3); Console.WriteLine("                                                    ");
-                                Console.SetCursorPosition(38, 4); Console.WriteLine("                                                    ");
-                                numeromal = false;
-                                Console.CursorVisible = true;
-
-                            }
-                        } while (numerovacio == true);
-                        control = true;
-                    }
-
-                    foreach (Estudiantes Buscar in AEstudiantes)
-                    {
-                        
-                        BuscarMatricula = Buscar.getMatricula();
-                        if (matriculaigual == BuscarMatricula)
-                        {
-
-                            Console.Clear();
-                            fila = 8;
-                            Console.SetCursorPosition(50, 1); Console.Write(colorsubrayado+"Resultados");
-                            Console.SetCursorPosition(0, 6); Console.Write(colorsubrayado+ "C.U| Matricula |   Nombre y Apellido    |    Nombre Del Proyecto    |Fecha inicio|Fecha Entrega|  Calificacion  | A/I ");
-                            Console.ResetColor();
-                            for (int linea = 0; linea <= 117; linea++)
-                            {
-                                Console.SetCursorPosition(linea, 7); Console.Write("-");
-                            }
-                            Console.ResetColor();
-                            Console.SetCursorPosition(0, fila); Console.Write(Buscar.getCarrera());
-                            Console.SetCursorPosition(5, fila); Console.Write(Buscar.getMatricula());
-                            Console.SetCursorPosition(16, fila); Console.Write(Buscar.getNombreApellido());
-                            foreach (Proyectos mostrardo in AProyec)
-                            {
-                                int consultaproyecto = mostrardo.getMatricula();
-                                if (matriculaigual == consultaproyecto)
-                                {
-                                    Console.SetCursorPosition(41, fila); Console.Write(mostrardo.getNombreDelProyecto());
-                                    string fechainicio = mostrardo.getFechaInicio().ToString("dd/MM/yyyy");
-                                    Console.SetCursorPosition(70, fila); Console.Write(fechainicio);
-                                    string fechafinal = mostrardo.getFechaEntrega().ToString("dd/MM/yyyy");
-                                    Console.SetCursorPosition(83, fila); Console.Write(fechafinal);
-                                    int nota = mostrardo.getCalificacion();
-                                    if (nota == 0)
-                                        if (nota == 0)
-                                        {
-                                            Console.BackgroundColor = ConsoleColor.Yellow;
-                                            Console.ForegroundColor = ConsoleColor.Black;
-                                            Console.SetCursorPosition(97, fila); Console.Write(colorsubrayado + "(Sin Calificar)");
-                                            Console.ResetColor();
-                                        }
-                                        else if (nota >= 90 && nota <= 100)
-                                        {
-                                            Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(A)");
-                                        }
-                                        else if (nota >= 80 && nota <= 89)
-                                        {
-                                            Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(B)");
-                                        }
-                                        else if (nota >= 70 && nota <= 79)
-                                        {
-                                            Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(C)");
-                                        }
-                                        else if (nota >= 60 && nota <= 69)
-                                        {
-                                            Console.SetCursorPosition(101, fila); Console.Write(mostrardo.getCalificacion() + "(D)");
-                                        }
-                                        else if (nota <= 59)
-                                        {
-                                            Console.SetCursorPosition(101, fila); Console.Write(alerta + mostrardo.getCalificacion() + "(F)");
-                                            Console.ResetColor();
-                                        }
-
-                                }
-                            }
-                            fila++;
-                            for (int linea = 0; linea <= 117; linea++)
-                            {
-                                Console.SetCursorPosition(linea, fila); Console.Write("-");
-                            }
-                            numeromal = false;
-
-                        }
-
-                    }
-
-
-                    if (BuscarMatricula != matriculaigual && numeromal==true)
-                    {
-                        Console.CursorVisible = false;
-                        Console.SetCursorPosition(20, 23); Console.WriteLine("                                                    ");
-                        Console.SetCursorPosition(39, 3); Console.WriteLine(alerta+"Debe dijitar una matricula Valida.");
-                        Console.SetCursorPosition(38, 4); Console.WriteLine(logrado+"Presione enter para volver a dijitar");
-                        Console.ReadKey(true);
-                        Console.ResetColor();
-                        Console.SetCursorPosition(38, 3); Console.WriteLine("                                                    ");
-                        Console.SetCursorPosition(38, 4); Console.WriteLine("                                                    ");
-                        numerovacio = true;
+                        Console.SetCursorPosition(33, 3); Console.Write("                                                        ");
                         BuscarInactivo = false;
-                        Console.CursorVisible = true;
                     }
-                    else if(numeromal==true) //(BuscarMatricula == matriculaigual)
-                    {
-                        ConsoleKeyInfo salir = new ConsoleKeyInfo();
-                        Console.CursorVisible = false;
-                        Console.SetCursorPosition(33, 3); Console.Write("Opciones | Scape: Menu - Enter: Seguir Busqueda |");
-                        salir = Console.ReadKey(true);
-                        if (salir.Key == ConsoleKey.Escape)
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            Console.SetCursorPosition(33, 3); Console.Write("                                                        ");
-                            BuscarInactivo = false;
-                        }
-                        Console.CursorVisible = true;
-                    }
-                    numeromal = true;
-                    
+                    Console.CursorVisible = true;*/
+                }
+                numeromal = true;
+                BuscarInactivo = false;
+                entrar = false;
 
-                } while (BuscarInactivo == false);
-
-            }
+            } while (BuscarInactivo == false);
         }
         //⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️------------Consultar------------⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️//
 

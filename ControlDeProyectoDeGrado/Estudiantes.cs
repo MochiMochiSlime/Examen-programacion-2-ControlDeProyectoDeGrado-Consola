@@ -46,5 +46,11 @@ namespace ControlDeProyectoDeGrado
             return Activo;
         }
 
+        public void setActivo(bool activo)
+        {
+            this.Activo = activo;
+        }
+
+
     }
 }
