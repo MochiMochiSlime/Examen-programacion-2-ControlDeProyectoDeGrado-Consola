@@ -10,6 +10,7 @@ namespace ControlDeProyectoDeGrado
 {
     class Program
     {
+        //Para probar github
         //\u001b[30m letras en negro
         static string colorsubrayado = "\u001b[30m\u001b[47m";
         static string logrado = "\u001b[30m\u001b[42m";
