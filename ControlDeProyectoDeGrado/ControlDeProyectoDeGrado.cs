@@ -8,7 +8,7 @@ using System.IO;
 
 namespace ControlDeProyectoDeGrado
 {
-    class Program
+    class ControlDeProyectoDeGrado
     {
         //Para probar github
         //\u001b[30m letras en negro
@@ -691,11 +691,14 @@ namespace ControlDeProyectoDeGrado
                         ConsoleKeyInfo seleccion = new ConsoleKeyInfo();
                         while (true)
                         {
+                            Console.SetCursorPosition(49, 1); Console.Write("                         ");
+                            Console.SetCursorPosition(50, 1); Console.Write(colorsubrayado + "Resultados");   
+                            Console.ResetColor();
                             Console.CursorVisible = false;
-                            Console.SetCursorPosition(19, 3); Console.Write("Opciones |                |                 |                                |");
-                            Console.SetCursorPosition(30, 3); Console.Write($"{(opcion == 1 ? colorsubrayado : "")}Volver al menu\u001b[0m");
-                            Console.SetCursorPosition(47, 3); Console.Write($"{(opcion == 2 ? colorsubrayado : "")}Seguir Busqueda\u001b[0m");
-                            Console.SetCursorPosition(65, 3); Console.Write($"{(opcion == 3 ? colorsubrayado : "")}Activar/Desactivar(estudiante)\u001b[0m");
+                            Console.SetCursorPosition(27, 3); Console.Write("Opciones |                |                 |                |");
+                            Console.SetCursorPosition(38, 3); Console.Write($"{(opcion == 1 ? colorsubrayado : "")}Volver al menu\u001b[0m");
+                            Console.SetCursorPosition(55, 3); Console.Write($"{(opcion == 2 ? colorsubrayado : "")}Seguir Busqueda\u001b[0m");
+                            Console.SetCursorPosition(73, 3); Console.Write($"{(opcion == 3 ? colorsubrayado : "")}Modificaciones\u001b[0m");
                             seleccion = Console.ReadKey(true);
                             if (seleccion.Key == ConsoleKey.RightArrow)
                             {
@@ -731,35 +734,7 @@ namespace ControlDeProyectoDeGrado
                                 break;
 
                             case 3:
-                                foreach (Estudiantes cambiar in AEstudiantes)
-                                {
-                                    int buscarcambio = cambiar.getMatricula();
-                                    bool cambio = cambiar.getActivo();
-                                    cambio = !cambio;
-                                    if (todobien == buscarcambio)
-                                    {
-                                        cambiar.setActivo(cambio);
-                                        if (cambio == true)
-                                        {
-                                            Console.CursorVisible = false;
-                                            Console.SetCursorPosition(115, 8); Console.Write("A");
-                                            Console.SetCursorPosition(45, 3); Console.Write(logrado+"Estudiante activado.");
-                                            Console.ResetColor();                                          
-                                            Console.ReadKey(); 
-                                            Console.CursorVisible = true;
-                                        }
-                                        else if (cambio == false) 
-                                        {
-                                            Console.CursorVisible = false;
-                                            Console.SetCursorPosition(115, 8); Console.Write("I");
-                                            Console.SetCursorPosition(44, 3); Console.Write(alerta+"Estudiante desactivado");
-                                            Console.ResetColor();
-                                            Console.ReadKey();
-                                            Console.CursorVisible = true;
-                                        }
-                                        
-                                    }
-                                }
+                                Modificaciones(AEstudiantes, estudiantes,todobien);
                                 break;
                         }
                     } while (entrar == true);
@@ -785,6 +760,131 @@ namespace ControlDeProyectoDeGrado
 
             } while (BuscarInactivo == false);
         }
+
+
+        public static void Modificaciones(ArrayList AEstudiantes, Estudiantes estudiantes, int todobien)
+        {
+            int opcion = 1;
+            bool entrar = true;
+            do
+            {
+                ConsoleKeyInfo seleccion = new ConsoleKeyInfo();
+                while (true)
+                {
+                    
+                    Console.SetCursorPosition(49, 1); Console.Write(colorsubrayado + "Modificaciones");
+                    Console.ResetColor();
+                    Console.CursorVisible = false;
+                    Console.SetCursorPosition(19, 3); Console.Write("Opciones |                |                  |                                |");
+                    Console.SetCursorPosition(30, 3); Console.Write($"{(opcion == 1 ? colorsubrayado : "")}Volver al Atras\u001b[0m");
+                    Console.SetCursorPosition(47, 3); Console.Write($"{(opcion == 2 ? colorsubrayado : "")}Modificar Nombre\u001b[0m");
+                    Console.SetCursorPosition(66, 3); Console.Write($"{(opcion == 3 ? colorsubrayado : "")}Activar/Desactivar(estudiante)\u001b[0m");
+                    seleccion = Console.ReadKey(true);
+                    if (seleccion.Key == ConsoleKey.RightArrow)
+                    {
+                        opcion++;
+                    }
+                    else if (seleccion.Key == ConsoleKey.LeftArrow)
+                    {
+                        opcion--;
+                    }
+                    else if (seleccion.Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+
+                    if (opcion < 1)
+                    {
+                        opcion = 3;
+                    }
+                    else if (opcion > 3)
+                    {
+                        opcion = 1;
+                    }
+                }
+
+                Console.CursorVisible = true;
+                Console.SetCursorPosition(19, 3); Console.Write("                                                                               ");
+
+                switch (opcion)
+                {
+                    case 1:
+                        return;
+
+                    case 2:
+                        foreach (Estudiantes cambiar in AEstudiantes)
+                        {
+                            int buscarcambio = cambiar.getMatricula();     
+                            if (todobien == buscarcambio)
+                            {
+                                Console.SetCursorPosition(47, 3); Console.Write("Esc para cancelar");
+                                Console.SetCursorPosition(16, 8); Console.Write("                         ");
+                                Console.SetCursorPosition(16, 8);
+                                bool error = false;
+                                string nombrecanelado = cambiar.getNombreApellido();
+                                ConsoleKeyInfo inicialnombre = new ConsoleKeyInfo();
+                                inicialnombre = Console.ReadKey(error);
+                                if (inicialnombre.Key == ConsoleKey.Escape)
+                                {
+                                    Console.SetCursorPosition(16, 8); Console.Write(nombrecanelado);
+                                    Console.SetCursorPosition(16, 8); Console.Write(nombrecanelado);
+                                    entrar = false;
+                                    break;
+                                }
+                                else if (inicialnombre.Key != ConsoleKey.Escape)
+                                {
+                                    char inicial = inicialnombre.KeyChar;
+                                    string nombrecambio = Convert.ToString(inicial + Console.ReadLine());
+                                    cambiar.setNombreApellido(nombrecambio);
+                                    Console.SetCursorPosition(16, 8); Console.Write(nombrecambio);
+                                }
+                                
+                            }
+                        }
+                        break;
+                    case 3:
+                        foreach (Estudiantes cambiar in AEstudiantes)
+                        {
+                            int buscarcambio = cambiar.getMatricula();
+                            bool cambio = cambiar.getActivo();
+                            cambio = !cambio;
+                            if (todobien == buscarcambio)
+                            {
+                                cambiar.setActivo(cambio);
+                                if (cambio == true)
+                                {
+                                    Console.CursorVisible = false;
+                                    Console.SetCursorPosition(115, 8); Console.Write("A");
+                                    Console.SetCursorPosition(46, 3); Console.Write(logrado + "Estudiante activado.");
+                                    Console.ResetColor();
+                                    Console.ReadKey();
+                                    Console.CursorVisible = true;
+                                }
+                                else if (cambio == false)
+                                {
+                                    Console.CursorVisible = false;
+                                    Console.SetCursorPosition(115, 8); Console.Write("I");
+                                    Console.SetCursorPosition(45, 3); Console.Write(alerta + "Estudiante desactivado");
+                                    Console.ResetColor();
+                                    Console.ReadKey();
+                                    Console.CursorVisible = true;
+                                }
+
+                            }
+                        }
+                        break;
+                }
+                entrar = true;
+            } while (entrar == true);
+        }
+
+
+
+
+
+
+
+
         //⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️------------Consultar------------⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️//
 
         //⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇⬇️⬇️------------Registro de Proyectos------------⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️//

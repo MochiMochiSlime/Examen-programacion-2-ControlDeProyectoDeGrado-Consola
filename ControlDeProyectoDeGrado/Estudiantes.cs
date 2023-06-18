@@ -51,6 +51,11 @@ namespace ControlDeProyectoDeGrado
             this.Activo = activo;
         }
 
+        public void setNombreApellido(string nombreapellido)
+        {
+            this.NombreApellido = nombreapellido;
+        }
+
 
     }
 }
