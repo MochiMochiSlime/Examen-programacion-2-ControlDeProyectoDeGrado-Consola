@@ -33,7 +33,7 @@ namespace ControlDeProyectoDeGrado
             DateTime fecha22;
             DateTime.TryParse(fecha1, out fecha11);
             DateTime.TryParse(fecha2, out fecha22);
-            AProyecto.Add(new Proyectos("Gestion Proyectos De Grado", fecha11, fecha22,0,20230000,0));
+            AProyecto.Add(new Proyectos("Gestion Proyectos De Grado", fecha11, fecha22, 0, 20230000, 0));
 
 
 
@@ -72,8 +72,7 @@ namespace ControlDeProyectoDeGrado
             Console.SetCursorPosition(x2, y1); Console.Write("╗");
             Console.SetCursorPosition(x1, y2); Console.Write("╚");
             Console.SetCursorPosition(x2, y2); Console.Write("╝");
-            Console.SetCursorPosition(x1, y2 + 1); Console.Write("Wilber Alejo 2018-0304");
-            Console.SetCursorPosition(x1, y2 + 2); Console.Write("Francisco Javier");
+            Console.SetCursorPosition(x1, y2 + 1); Console.Write("Wilber Alejo Jimenez 2018-0304");
 
 
         }
@@ -935,7 +934,6 @@ namespace ControlDeProyectoDeGrado
             bool control = true;
 
             ConsoleKeyInfo inicialnumero = new ConsoleKeyInfo();
-
             Console.SetCursorPosition(28, 12); Console.Write("Matricula:");
             //Console.SetCursorPosition(51, 4); 
             do
@@ -992,11 +990,12 @@ namespace ControlDeProyectoDeGrado
                     {
 
                         Console.ResetColor();
-                        Console.SetCursorPosition(0, 0); Console.Write(Buscar.getMatricula());
+                        //Console.SetCursorPosition(0, 0); Console.Write(Buscar.getMatricula());
                         amatricula = todobien;
                         BuscarInactivo = true;
                         noentrar = true;
                         nombreestudiante = Buscar.getNombreApellido();
+                        Console.SetCursorPosition(28, 11); Console.Write("Carrera:"+Buscar.getCarrera());
                     }
                     
                     
